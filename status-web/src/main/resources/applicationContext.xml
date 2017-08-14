@@ -10,7 +10,7 @@
 
     <context:property-placeholder location="classpath:config/config.properties" />
 
-    <import resource="classpath:" />
+    <import resource="classpath:spring-mvc.xml" />
 
 
 </beans>
