@@ -13,8 +13,8 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>
       classpath:applicationContext.xml,
-      classpath:applicationContext-service.xml,
-      classpath:applicationContext-dal.xml
+      classpath*:applicationContext-service.xml,
+      classpath*:applicationContext-dal.xml
     </param-value>
   </context-param>
 
