@@ -136,9 +136,9 @@
             </activation>
             <properties>
                 <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
-                <jdbc.url></jdbc.url>
-                <jdbc.username></jdbc.username>
-                <jdbc.password></jdbc.password>
+                <jdbc.url>jdbc:mysql://172.16.103.201:3306/lvs_provider</jdbc.url>
+                <jdbc.username>root</jdbc.username>
+                <jdbc.password>!QAZxsw2</jdbc.password>
             </properties>
         </profile>
 
