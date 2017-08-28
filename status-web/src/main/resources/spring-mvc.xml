@@ -8,7 +8,14 @@
 
     <context:annotation-config/>
 
-    <context:component-scan base-package="com.im.status.controller" />
+    <context:component-scan base-package="com.im.status.controller" >
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+
+    <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
+    <bean
+            class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    </bean>
 
     <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
         <property name="contentType" value="text/plain;charset=UTF-8"/>

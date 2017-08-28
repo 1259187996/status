@@ -23,7 +23,7 @@ public class ServiceController {
     @Autowired
     private ServiceService serviceService;
 
-    @RequestMapping(value = "get")
+    @RequestMapping(value = "/get")
     public ModelAndView getService(ModelMap model){
         List<TService> list = serviceService.getService();
         logger.debug("获取service");
