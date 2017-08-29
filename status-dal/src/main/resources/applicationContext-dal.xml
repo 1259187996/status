@@ -4,7 +4,7 @@
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
                         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
     <context:annotation-config />
 
@@ -47,17 +47,16 @@
     </bean>
 
     <!-- 配置事务管理器 -->
-    <!--<bean id="transactionManager"
+    <bean id="transactionManager"
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
-    </bean>-->
+    </bean>
 
     <!-- myBatis文件 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
-        <property name="mapperLocations" value="classpath*:/mapper/*.xml" />
-        <!--<property name="typeAliasesPackage" value="com.im.status.mapper" />-->
+        <property name="mapperLocations" value="classpath*:/com/im/status/mapper/*.xml" />
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -66,7 +65,7 @@
     </bean>
 
     <!-- 注解方式配置事物 -->
-    <!--<tx:annotation-driven transaction-manager="transactionManager" />-->
+    <tx:annotation-driven transaction-manager="transactionManager" />
 
 
 
