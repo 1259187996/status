@@ -8,14 +8,9 @@
 
     <context:annotation-config/>
 
-    <context:component-scan base-package="com.im.status.controller" >
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-    </context:component-scan>
+    <context:component-scan base-package="com.im.status.controller" />
 
-    <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
-    <bean
-            class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-    </bean>
+
 
     <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
         <property name="contentType" value="text/plain;charset=UTF-8"/>
@@ -24,14 +19,14 @@
     <!-- 定义跳转的文件的前后缀 ，视图模式配置-->
     <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/view/" />
-        <property name="suffix" value=".jsp" />
+        <property name="suffix" value=".html" />
     </bean>
 
     <!-- 静态资源访问 -->
-    <mvc:resources mapping="/resources/**"  location="/resources/"/>
+    <!--<mvc:resources mapping="/resources/**"  location="/resources/"/>-->
 
     <!-- 静态资源访问 -->
-    <mvc:resources mapping="/webdemo/**"  location="/webdemo/"/>
+    <!--<mvc:resources mapping="/webdemo/**"  location="/webdemo/"/>-->
 
 
 
