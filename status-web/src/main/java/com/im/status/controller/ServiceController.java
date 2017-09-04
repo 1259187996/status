@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/service")
-public class ServiceController {
+public class ServiceController extends BaseController{
 
     Logger logger = Logger.getLogger(ServiceController.class);
 
