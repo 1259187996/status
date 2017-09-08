@@ -2,13 +2,13 @@ package com.im.status.controller;
 
 import com.im.status.model.TService;
 import com.im.status.service.ServiceService;
+import net.sf.json.JSONArray;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -24,11 +24,11 @@ public class ServiceController extends BaseController{
     private ServiceService serviceService;
 
     @RequestMapping("/get")
-    public ModelAndView getService(ModelMap model){
+    public void getService(HttpServletResponse response){
         List<TService> list = serviceService.getService();
         logger.debug("获取service");
-        model.addAttribute("list",list);
-        return new ModelAndView("jsonView",model);
+
+        this.success(response,JSONArray.fromObject(list));
     }
 
 

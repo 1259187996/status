@@ -1,5 +1,11 @@
+package com.im.status.base.model;
+
 /**
- * Created by zhizhuang.yang on 2017/9/4.
+ * 返回码枚举类
+ * @author zhizhuang.yang
+ * @date 2017年9月8日
+ * @version 1.0.0
+ * @description 返回码枚举类
  */
 public enum RespCode {
 
@@ -15,15 +21,15 @@ public enum RespCode {
 
     LOGIN_PASSWORD_ERROR("502", "账号密码不正确"),
 
-    REGISTEER_USER_EXIST("510", "注册账号已存在"),
+    REGISTER_USER_EXIST("510", "注册账号已存在"),
 
-    REGISTEER_USER_NOT_EXIST("511", "该账号尚未注册"),
+    REGISTER_USER_NOT_EXIST("511", "该账号尚未注册"),
 
     SMS_CODE_ERROR("513", "验证码错误"),
 
     MESSAGE_SEND_FAIL("512", "短信发送失败"),
 
-    USER_UNLOGIN("514", "用户尚未登录");
+    USER_UN_LOGIN("514", "用户尚未登录");
 
     /**
      * @param returnCode
