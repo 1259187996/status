@@ -54,13 +54,13 @@
 				</if>
 	    		<if test="params.userName != null and params.userName !='' "> and user_name = #{userName}</if>
 	    		<if test="params.mobileNumber != null and params.mobileNumber !='' "> and mobile_number = #{mobileNumber}</if>
-	    		<if test="userStatuss != null and userStatuss !='' ">
+	    		<if test="params.userStatuss != null and params.userStatuss !='' ">
 	    		  and user_status IN
 					<foreach collection="params.userStatuss" item="userStatus" open="(" close=")" separator=",">
 						#{userStatus}
 					</foreach>
 				</if>
-	    		<if test="userStates != null and userStates !='' ">
+	    		<if test="params.userStates != null and params.userStates !='' ">
 					and user_state IN
 					<foreach collection="params.userStates" item="userState" open="(" close=")" separator=",">
 						#{userState}
@@ -109,13 +109,13 @@
 			</if>
 			<if test="params.userName != null and params.userName !='' "> and user_name = #{userName}</if>
 			<if test="params.mobileNumber != null and params.mobileNumber !='' "> and mobile_number = #{mobileNumber}</if>
-			<if test="userStatuss != null and userStatuss !='' ">
+			<if test="params.userStatuss != null and params.userStatuss !='' ">
 				and user_status IN
 				<foreach collection="params.userStatuss" item="userStatus" open="(" close=")" separator=",">
 					#{userStatus}
 				</foreach>
 			</if>
-			<if test="userStates != null and userStates !='' ">
+			<if test="params.userStates != null and params.userStates !='' ">
 				and user_state IN
 				<foreach collection="params.userStates" item="userState" open="(" close=")" separator=",">
 					#{userState}

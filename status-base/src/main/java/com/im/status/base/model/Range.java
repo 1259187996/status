@@ -1,9 +1,13 @@
-package com.im.status.model;
+package com.im.status.base.model;
 
 import java.io.Serializable;
 
 /**
- * Created by zhizhuang.yang on 2017/7/25.
+ * @author zhizhuang.yang
+ * @date 2017年9月13日
+ * @version 1.0.0
+ * @description 用于查询时一些表示范围的基础类
+ * @param <T> 例：Range<Date>
  */
 public class Range<T> implements Serializable{
 

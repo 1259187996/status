@@ -66,6 +66,6 @@ public class RespModel<T> implements Serializable{
     }
 
     public String toString() {
-        return "RespModel{respCode='" + this.respCode + '\'' + ", respDesc='" + this.respDesc + '\'' + ", respData=" + this.respData.toString() + ", page=" + this.page + '}';
+        return "RespModel{respCode='" + this.respCode + '\'' + ", respDesc='" + this.respDesc + '\'' + ", respData=" + this.respData + ", page=" + this.page + '}';
     }
 }

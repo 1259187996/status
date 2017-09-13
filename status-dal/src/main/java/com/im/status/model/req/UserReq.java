@@ -1,7 +1,7 @@
 package com.im.status.model.req;
 
 import com.im.status.base.model.RequestParam;
-import com.im.status.model.Range;
+import com.im.status.base.model.Range;
 
 import java.io.Serializable;
 import java.util.Arrays;

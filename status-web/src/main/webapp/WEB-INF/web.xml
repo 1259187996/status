@@ -12,6 +12,7 @@
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
+      classpath*:application-redis.xml,
       classpath*:applicationContext-dal.xml,
       classpath*:applicationContext-service.xml,
       classpath:applicationContext.xml
