@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.im.status.mapper.TUserInfoMapper">
+	<resultMap id="BaseResultMap" type="com.im.status.model.user.TUserInfo" >
+		<id column="id" property="id"  />
+	    <result column="user_id" property="userId"  />
+	    <result column="nick_name" property="nickName"  />
+	    <result column="real_name" property="realName"  />
+	    <result column="user_sign" property="userSign"  />
+	    <result column="user_qq" property="userQq"  />
+	    <result column="user_sex" property="userSex"  />
+	    <result column="user_birthday" property="userBirthday"  />
+	    <result column="user_email" property="userEmail"  />
+	    <result column="user_addr" property="userAddr"  />
+	    <result column="user_idcard" property="userIdcard"  />
+	    <result column="create_time" property="createTime"  />
+	    <result column="update_time" property="updateTime"  />
+	    <result column="update_user" property="updateUser"  />
+
+    </resultMap>
+	
+	<sql id="Base_Column_List">
+    		id as id,
+    		user_id as userId,
+    		nick_name as nickName,
+    		real_name as realName,
+    		user_sign as userSign,
+    		user_qq as userQq,
+    		user_sex as userSex,
+    		user_birthday as userBirthday,
+    		user_email as userEmail,
+    		user_addr as userAddr,
+    		user_idcard as userIdcard,
+    		create_time as createTime,
+    		update_time as updateTime,
+    		update_user as updateUser
+	</sql>
+	
+	
+	<sql id="Base_Where_Clause">
+		<trim prefix="where" prefixOverrides="AND ">
+	    		<if test="id != null and id !='' "> and id = #{id}</if>
+	    		<if test="userId != null and userId !='' "> and user_id = #{userId}</if>
+	    		<if test="nickName != null and nickName !='' "> and nick_name = #{nickName}</if>
+	    		<if test="realName != null and realName !='' "> and real_name = #{realName}</if>
+	    		<if test="userSign != null and userSign !='' "> and user_sign = #{userSign}</if>
+	    		<if test="userQq != null and userQq !='' "> and user_qq = #{userQq}</if>
+	    		<if test="userSex != null and userSex !='' "> and user_sex = #{userSex}</if>
+	    		<if test="userBirthday != null and userBirthday !='' "> and user_birthday = #{userBirthday}</if>
+	    		<if test="userEmail != null and userEmail !='' "> and user_email = #{userEmail}</if>
+	    		<if test="userAddr != null and userAddr !='' "> and user_addr = #{userAddr}</if>
+	    		<if test="userIdcard != null and userIdcard !='' "> and user_idcard = #{userIdcard}</if>
+	    		<if test="createTime != null and createTime !='' "> and create_time = #{createTime}</if>
+	    		<if test="updateTime != null and updateTime !='' "> and update_time = #{updateTime}</if>
+	    		<if test="updateUser != null and updateUser !='' "> and update_user = #{updateUser}</if>
+		</trim>
+		<if test="sorting != null">order by  ${sorting} asc</if>
+		<if test="limitOffset != null and limitRows != null">
+			limit #{limitOffset}, #{limitRows}
+		</if>
+	</sql>
+	
+	<sql id="Base_Where_Count">
+		<trim prefix="where" prefixOverrides="AND ">
+	    		<if test="id != null and id !='' "> and id = #{id}</if>
+	    		<if test="userId != null and userId !='' "> and user_id = #{userId}</if>
+	    		<if test="nickName != null and nickName !='' "> and nick_name = #{nickName}</if>
+	    		<if test="realName != null and realName !='' "> and real_name = #{realName}</if>
+	    		<if test="userSign != null and userSign !='' "> and user_sign = #{userSign}</if>
+	    		<if test="userQq != null and userQq !='' "> and user_qq = #{userQq}</if>
+	    		<if test="userSex != null and userSex !='' "> and user_sex = #{userSex}</if>
+	    		<if test="userBirthday != null and userBirthday !='' "> and user_birthday = #{userBirthday}</if>
+	    		<if test="userEmail != null and userEmail !='' "> and user_email = #{userEmail}</if>
+	    		<if test="userAddr != null and userAddr !='' "> and user_addr = #{userAddr}</if>
+	    		<if test="userIdcard != null and userIdcard !='' "> and user_idcard = #{userIdcard}</if>
+	    		<if test="createTime != null and createTime !='' "> and create_time = #{createTime}</if>
+	    		<if test="updateTime != null and updateTime !='' "> and update_time = #{updateTime}</if>
+	    		<if test="updateUser != null and updateUser !='' "> and update_user = #{updateUser}</if>
+		</trim>
+	</sql>
+	
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="java.util.Map">
+		select count(id)
+		from t_user_info
+		<include refid="Base_Where_Count" />
+	</select>
+	
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from t_user_info
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_user_info
+		where t_user_info_id = #{0}
+	</select>
+	
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from t_user_info
+		where t_user_info_id = #{0}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from t_user_info
+		<include refid="Base_Where_Clause" />
+	</delete>
+	
+	<!-- 添加 -->	
+	<insert id="insert" parameterType="com.im.status.model.user.TUserInfo">
+		insert into t_user_info(
+    		id,
+    		user_id,
+    		nick_name,
+    		real_name,
+    		user_sign,
+    		user_qq,
+    		user_sex,
+    		user_birthday,
+    		user_email,
+    		user_addr,
+    		user_idcard,
+    		create_time,
+    		update_time,
+    		update_user
+		)
+		values (
+    		#{id},
+    		#{userId},
+    		#{nickName},
+    		#{realName},
+    		#{userSign},
+    		#{userQq},
+    		#{userSex},
+    		#{userBirthday},
+    		#{userEmail},
+    		#{userAddr},
+    		#{userIdcard},
+    		#{createTime},
+    		#{updateTime},
+    		#{updateUser}
+		)
+	</insert>
+		
+	
+	<!-- 通过ID更新 -->
+	<update id="updateByIdSelective" parameterType="com.im.status.model.user.TUserInfo">
+		update t_user_info
+		<trim prefix="SET" prefixOverrides=", ">
+	    	<if test="id != null"> , id = #{id}</if>
+	    	<if test="userId != null"> , user_id = #{userId}</if>
+	    	<if test="nickName != null"> , nick_name = #{nickName}</if>
+	    	<if test="realName != null"> , real_name = #{realName}</if>
+	    	<if test="userSign != null"> , user_sign = #{userSign}</if>
+	    	<if test="userQq != null"> , user_qq = #{userQq}</if>
+	    	<if test="userSex != null"> , user_sex = #{userSex}</if>
+	    	<if test="userBirthday != null"> , user_birthday = #{userBirthday}</if>
+	    	<if test="userEmail != null"> , user_email = #{userEmail}</if>
+	    	<if test="userAddr != null"> , user_addr = #{userAddr}</if>
+	    	<if test="userIdcard != null"> , user_idcard = #{userIdcard}</if>
+	    	<if test="createTime != null"> , create_time = #{createTime}</if>
+	    	<if test="updateTime != null"> , update_time = #{updateTime}</if>
+	    	<if test="updateUser != null"> , update_user = #{updateUser}</if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<update id="updateById" parameterType="com.im.status.model.user.TUserInfo">
+		update t_user_info
+		<trim prefix="SET" prefixOverrides=", "> 
+    		id = #{id},
+    		user_id = #{userId},
+    		nick_name = #{nickName},
+    		real_name = #{realName},
+    		user_sign = #{userSign},
+    		user_qq = #{userQq},
+    		user_sex = #{userSex},
+    		user_birthday = #{userBirthday},
+    		user_email = #{userEmail},
+    		user_addr = #{userAddr},
+    		user_idcard = #{userIdcard},
+    		create_time = #{createTime},
+    		update_time = #{updateTime},
+    		update_user = #{updateUser}
+    	</trim>
+		where id = #{id}
+	</update>
+</mapper>

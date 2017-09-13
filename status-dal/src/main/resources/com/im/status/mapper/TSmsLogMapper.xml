@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.im.status.mapper.TSmsLogMapper">
+<!-- 
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true"/>
+ -->
+	<resultMap id="BaseResultMap" type="com.im.status.model.user.TSmsLog" >
+		<id column="id" property="id"  />
+	    <result column="moblie_number" property="moblieNumber"  />
+	    <result column="sms_type" property="smsType"  />
+	    <result column="sms_code" property="smsCode"  />
+	    <result column="sms_content" property="smsContent"  />
+	    <result column="sms_status" property="smsStatus"  />
+	    <result column="send_time" property="sendTime"  />
+
+    </resultMap>
+	
+	<sql id="Base_Column_List">
+    		id as id,
+    		moblie_number as moblieNumber,
+    		sms_type as smsType,
+    		sms_code as smsCode,
+    		sms_content as smsContent,
+    		sms_status as smsStatus,
+    		send_time as sendTime
+	</sql>
+	
+	
+	<sql id="Base_Where_Clause">
+		<trim prefix="where" prefixOverrides="AND ">
+	    		<if test="id != null and id !='' "> and id = #{id}</if>
+	    		<if test="moblieNumber != null and moblieNumber !='' "> and moblie_number = #{moblieNumber}</if>
+	    		<if test="smsType != null and smsType !='' "> and sms_type = #{smsType}</if>
+	    		<if test="smsCode != null and smsCode !='' "> and sms_code = #{smsCode}</if>
+	    		<if test="smsContent != null and smsContent !='' "> and sms_content = #{smsContent}</if>
+	    		<if test="smsStatus != null and smsStatus !='' "> and sms_status = #{smsStatus}</if>
+	    		<if test="sendTime != null and sendTime !='' "> and send_time = #{sendTime}</if>
+		</trim>
+		<if test="sorting != null">order by  ${sorting} #{sortType}</if>
+		<if test="limitOffset != null and limitRows != null">
+			limit #{limitOffset}, #{limitRows}
+		</if>
+	</sql>
+	
+	<sql id="Base_Where_Count">
+		<trim prefix="where" prefixOverrides="AND ">
+	    		<if test="id != null and id !='' "> and id = #{id}</if>
+	    		<if test="moblieNumber != null and moblieNumber !='' "> and moblie_number = #{moblieNumber}</if>
+	    		<if test="smsType != null and smsType !='' "> and sms_type = #{smsType}</if>
+	    		<if test="smsCode != null and smsCode !='' "> and sms_code = #{smsCode}</if>
+	    		<if test="smsContent != null and smsContent !='' "> and sms_content = #{smsContent}</if>
+	    		<if test="smsStatus != null and smsStatus !='' "> and sms_status = #{smsStatus}</if>
+	    		<if test="sendTime != null and sendTime !='' "> and send_time = #{sendTime}</if>
+		</trim>
+	</sql>
+	
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="java.util.Map">
+		select count(id)
+		from t_sms_log
+		<include refid="Base_Where_Count" />
+	</select>
+	
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from t_sms_log
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_sms_log
+		where t_sms_log_id = #{0}
+	</select>
+	
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from t_sms_log
+		where t_sms_log_id = #{0}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from t_sms_log
+		<include refid="Base_Where_Clause" />
+	</delete>
+	
+	<!-- 添加 -->	
+	<insert id="insert" parameterType="com.im.status.model.user.TSmsLog">
+		insert into t_sms_log(
+    		id,
+    		moblie_number,
+    		sms_type,
+    		sms_code,
+    		sms_content,
+    		sms_status,
+    		send_time
+		)
+		values (
+    		#{id},
+    		#{moblieNumber},
+    		#{smsType},
+    		#{smsCode},
+    		#{smsContent},
+    		#{smsStatus},
+    		#{sendTime}
+		)
+	</insert>
+		
+	
+	<!-- 通过ID更新 -->
+	<update id="updateByIdSelective" parameterType="com.im.status.model.user.TSmsLog">
+		update t_sms_log
+		<trim prefix="SET" prefixOverrides=", ">
+	    	<if test="id != null"> , id = #{id}</if>
+	    	<if test="moblieNumber != null"> , moblie_number = #{moblieNumber}</if>
+	    	<if test="smsType != null"> , sms_type = #{smsType}</if>
+	    	<if test="smsCode != null"> , sms_code = #{smsCode}</if>
+	    	<if test="smsContent != null"> , sms_content = #{smsContent}</if>
+	    	<if test="smsStatus != null"> , sms_status = #{smsStatus}</if>
+	    	<if test="sendTime != null"> , send_time = #{sendTime}</if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<update id="updateById" parameterType="com.im.status.model.user.TSmsLog">
+		update t_sms_log
+		<trim prefix="SET" prefixOverrides=", "> 
+    		id = #{id},
+    		moblie_number = #{moblieNumber},
+    		sms_type = #{smsType},
+    		sms_code = #{smsCode},
+    		sms_content = #{smsContent},
+    		sms_status = #{smsStatus},
+    		send_time = #{sendTime}
+    	</trim>
+		where id = #{id}
+	</update>
+</mapper>

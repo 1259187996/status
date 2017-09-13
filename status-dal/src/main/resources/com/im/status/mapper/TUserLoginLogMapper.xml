@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.im.status.mapper.TUserLoginLogMapper">
+<!-- 
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true"/>
+ -->
+	<resultMap id="BaseResultMap" type="com.im.status.model.user.TUserLoginLog" >
+		<id column="id" property="id"  />
+	    <result column="user_id" property="userId"  />
+	    <result column="login_ip" property="loginIp"  />
+	    <result column="login_time" property="loginTime"  />
+	    <result column="login_addr" property="loginAddr"  />
+	    <result column="login_platform" property="loginPlatform"  />
+	    <result column="logout_time" property="logoutTime"  />
+
+    </resultMap>
+	
+	<sql id="Base_Column_List">
+    		id as id,
+    		user_id as userId,
+    		login_ip as loginIp,
+    		login_time as loginTime,
+    		login_addr as loginAddr,
+    		login_platform as loginPlatform,
+    		logout_time as logoutTime
+	</sql>
+	
+	
+	<sql id="Base_Where_Clause">
+		<trim prefix="where" prefixOverrides="AND ">
+	    		<if test="id != null and id !='' "> and id = #{id}</if>
+	    		<if test="userId != null and userId !='' "> and user_id = #{userId}</if>
+	    		<if test="loginIp != null and loginIp !='' "> and login_ip = #{loginIp}</if>
+	    		<if test="loginTime != null and loginTime !='' "> and login_time = #{loginTime}</if>
+	    		<if test="loginAddr != null and loginAddr !='' "> and login_addr = #{loginAddr}</if>
+	    		<if test="loginPlatform != null and loginPlatform !='' "> and login_platform = #{loginPlatform}</if>
+	    		<if test="logoutTime != null and logoutTime !='' "> and logout_time = #{logoutTime}</if>
+		</trim>
+		<if test="sorting != null">order by  ${sorting} asc</if>
+		<if test="limitOffset != null and limitRows != null">
+			limit #{limitOffset}, #{limitRows}
+		</if>
+	</sql>
+	
+	<sql id="Base_Where_Count">
+		<trim prefix="where" prefixOverrides="AND ">
+	    		<if test="id != null and id !='' "> and id = #{id}</if>
+	    		<if test="userId != null and userId !='' "> and user_id = #{userId}</if>
+	    		<if test="loginIp != null and loginIp !='' "> and login_ip = #{loginIp}</if>
+	    		<if test="loginTime != null and loginTime !='' "> and login_time = #{loginTime}</if>
+	    		<if test="loginAddr != null and loginAddr !='' "> and login_addr = #{loginAddr}</if>
+	    		<if test="loginPlatform != null and loginPlatform !='' "> and login_platform = #{loginPlatform}</if>
+	    		<if test="logoutTime != null and logoutTime !='' "> and logout_time = #{logoutTime}</if>
+		</trim>
+	</sql>
+	
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="java.util.Map">
+		select count(id)
+		from t_user_login_log
+		<include refid="Base_Where_Count" />
+	</select>
+	
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from t_user_login_log
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_user_login_log
+		where t_user_login_log_id = #{0}
+	</select>
+	
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from t_user_login_log
+		where t_user_login_log_id = #{0}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from t_user_login_log
+		<include refid="Base_Where_Clause" />
+	</delete>
+	
+	<!-- 添加 -->	
+	<insert id="insert" parameterType="com.im.status.model.user.TUserLoginLog">
+		insert into t_user_login_log(
+    		id,
+    		user_id,
+    		login_ip,
+    		login_time,
+    		login_addr,
+    		login_platform,
+    		logout_time
+		)
+		values (
+    		#{id},
+    		#{userId},
+    		#{loginIp},
+    		#{loginTime},
+    		#{loginAddr},
+    		#{loginPlatform},
+    		#{logoutTime}
+		)
+	</insert>
+		
+	
+	<!-- 通过ID更新 -->
+	<update id="updateByIdSelective" parameterType="com.im.status.model.user.TUserLoginLog">
+		update t_user_login_log
+		<trim prefix="SET" prefixOverrides=", ">
+	    	<if test="id != null"> , id = #{id}</if>
+	    	<if test="userId != null"> , user_id = #{userId}</if>
+	    	<if test="loginIp != null"> , login_ip = #{loginIp}</if>
+	    	<if test="loginTime != null"> , login_time = #{loginTime}</if>
+	    	<if test="loginAddr != null"> , login_addr = #{loginAddr}</if>
+	    	<if test="loginPlatform != null"> , login_platform = #{loginPlatform}</if>
+	    	<if test="logoutTime != null"> , logout_time = #{logoutTime}</if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<update id="updateById" parameterType="com.im.status.model.user.TUserLoginLog">
+		update t_user_login_log
+		<trim prefix="SET" prefixOverrides=", "> 
+    		id = #{id},
+    		user_id = #{userId},
+    		login_ip = #{loginIp},
+    		login_time = #{loginTime},
+    		login_addr = #{loginAddr},
+    		login_platform = #{loginPlatform},
+    		logout_time = #{logoutTime}
+    	</trim>
+		where id = #{id}
+	</update>
+</mapper>

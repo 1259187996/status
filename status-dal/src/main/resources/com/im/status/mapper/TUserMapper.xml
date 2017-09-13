@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.im.status.mapper.TUserMapper">
+<!-- 
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true"/>
+ -->
+	<resultMap id="BaseResultMap" type="com.im.status.model.user.TUser" >
+		<id column="id" property="id"  />
+	    <result column="user_id" property="userId"  />
+	    <result column="user_name" property="userName"  />
+	    <result column="password" property="password"  />
+	    <result column="user_icon" property="userIcon"  />
+	    <result column="mobile_number" property="mobileNumber"  />
+	    <result column="user_status" property="userStatus"  />
+	    <result column="user_state" property="userState"  />
+	    <result column="user_channel" property="userChannel"  />
+	    <result column="last_login_ip" property="lastLoginIp"  />
+	    <result column="last_login_time" property="lastLoginTime"  />
+	    <result column="register_time" property="registerTime"  />
+	    <result column="last_update_time" property="lastUpdateTime"  />
+
+    </resultMap>
+	
+	<sql id="Base_Column_List">
+    		id as id,
+    		user_id as userId,
+    		user_name as userName,
+    		password as password,
+    		user_icon as userIcon,
+    		mobile_number as mobileNumber,
+    		user_status as userStatus,
+    		user_state as userState,
+    		user_channel as userChannel,
+    		last_login_ip as lastLoginIp,
+    		last_login_time as lastLoginTime,
+    		register_time as registerTime,
+    		last_update_time as lastUpdateTime
+	</sql>
+	
+	
+	<sql id="Base_Where_Clause">
+		<trim prefix="where" prefixOverrides="AND ">
+	    		<if test="params.ids != null and params.ids !='' ">
+					AND id IN
+					<foreach collection="params.ids" item="id" open="(" close=")" separator=",">
+						#{id}
+					</foreach>
+				</if>
+	    		<if test="params.userIds != null and params.userIds !='' ">
+					and user_id IN
+					<foreach collection="params.userIds" item="userId" open="(" close=")" separator=",">
+						#{userId}
+					</foreach>
+				</if>
+	    		<if test="params.userName != null and params.userName !='' "> and user_name = #{userName}</if>
+	    		<if test="params.mobileNumber != null and params.mobileNumber !='' "> and mobile_number = #{mobileNumber}</if>
+	    		<if test="userStatuss != null and userStatuss !='' ">
+	    		  and user_status IN
+					<foreach collection="params.userStatuss" item="userStatus" open="(" close=")" separator=",">
+						#{userStatus}
+					</foreach>
+				</if>
+	    		<if test="userStates != null and userStates !='' ">
+					and user_state IN
+					<foreach collection="params.userStates" item="userState" open="(" close=")" separator=",">
+						#{userState}
+					</foreach>
+				</if>
+	    		<if test="params.userChannel != null and params.userChannel !='' "> and user_channel = #{userChannel}</if>
+	    		<if test="params.lastLoginIp != null and params.lastLoginIp !='' "> and last_login_ip = #{lastLoginIp}</if>
+	    		<if test="params.lastLoginTime.min != null and params.lastLoginTime.min !='' ">
+	    		  and last_login_time > #{params.lastLoginTime.min}
+				</if>
+				<if test="params.lastLoginTime.max != null and params.lastLoginTime.max !='' ">
+					and last_login_time =&lt; #{params.lastLoginTime.max}
+				</if>
+	    		<if test="params.registerTime.min != null and params.registerTime.min !='' ">
+	    		  and register_time > #{params.registerTime.min}
+				</if>
+				<if test="params.registerTime.max != null and params.registerTime.max !='' ">
+					and register_time =&lt; #{params.registerTime.max}
+				</if>
+	    		<if test="params.lastUpdateTime.min != null and params.lastUpdateTime.min !='' ">
+	    		  and last_update_time > #{params.lastUpdateTime.min}
+				</if>
+				<if test="params.lastUpdateTime.max != null and params.lastUpdateTime.max !='' ">
+					and last_update_time =&lt; #{params.lastUpdateTime.max}
+				</if>
+		</trim>
+		<if test="sorting != null">order by  ${sorting} #{sortType}</if>
+		<if test="limitOffset != null and limitRows != null">
+			limit #{limitOffset}, #{limitRows}
+		</if>
+	</sql>
+	
+	<sql id="Base_Where_Count">
+		<trim prefix="where" prefixOverrides="AND ">
+			<if test="params.ids != null and params.ids !='' ">
+				AND id IN
+				<foreach collection="params.ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+			</if>
+			<if test="params.userIds != null and params.userIds !='' ">
+				and user_id IN
+				<foreach collection="params.userIds" item="userId" open="(" close=")" separator=",">
+					#{userId}
+				</foreach>
+			</if>
+			<if test="params.userName != null and params.userName !='' "> and user_name = #{userName}</if>
+			<if test="params.mobileNumber != null and params.mobileNumber !='' "> and mobile_number = #{mobileNumber}</if>
+			<if test="userStatuss != null and userStatuss !='' ">
+				and user_status IN
+				<foreach collection="params.userStatuss" item="userStatus" open="(" close=")" separator=",">
+					#{userStatus}
+				</foreach>
+			</if>
+			<if test="userStates != null and userStates !='' ">
+				and user_state IN
+				<foreach collection="params.userStates" item="userState" open="(" close=")" separator=",">
+					#{userState}
+				</foreach>
+			</if>
+			<if test="params.userChannel != null and params.userChannel !='' "> and user_channel = #{userChannel}</if>
+			<if test="params.lastLoginIp != null and params.lastLoginIp !='' "> and last_login_ip = #{lastLoginIp}</if>
+			<if test="params.lastLoginTime.min != null and params.lastLoginTime.min !='' ">
+				and last_login_time > #{params.lastLoginTime.min}
+			</if>
+			<if test="params.lastLoginTime.max != null and params.lastLoginTime.max !='' ">
+				and last_login_time =&lt; #{params.lastLoginTime.max}
+			</if>
+			<if test="params.registerTime.min != null and params.registerTime.min !='' ">
+				and register_time > #{params.registerTime.min}
+			</if>
+			<if test="params.registerTime.max != null and params.registerTime.max !='' ">
+				and register_time =&lt; #{params.registerTime.max}
+			</if>
+			<if test="params.lastUpdateTime.min != null and params.lastUpdateTime.min !='' ">
+				and last_update_time > #{params.lastUpdateTime.min}
+			</if>
+			<if test="params.lastUpdateTime.max != null and params.lastUpdateTime.max !='' ">
+				and last_update_time =&lt; #{params.lastUpdateTime.max}
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="com.im.status.model.req.UserReq">
+		select count(id)
+		from t_user
+		<include refid="Base_Where_Count" />
+	</select>
+	
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="com.im.status.model.req.UserReq">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where t_user_id = #{id}
+	</select>
+	
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from t_user
+		where t_user_id = #{id}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.im.status.model.req.UserReq">
+		delete from t_user
+		<include refid="Base_Where_Clause" />
+	</delete>
+	
+	<!-- 添加 -->	
+	<insert id="insert" parameterType="com.im.status.model.user.TUser">
+		insert into t_user(
+    		user_id,
+    		user_name,
+    		password,
+    		user_icon,
+    		mobile_number,
+    		user_status,
+    		user_state,
+    		user_channel,
+    		last_login_ip,
+    		last_login_time,
+    		register_time,
+    		last_update_time
+		)
+		values (
+    		#{userId},
+    		#{userName},
+    		#{password},
+    		#{userIcon},
+    		#{mobileNumber},
+    		#{userStatus},
+    		#{userState},
+    		#{userChannel},
+    		#{lastLoginIp},
+    		#{lastLoginTime},
+    		#{registerTime},
+    		#{lastUpdateTime}
+		)
+	</insert>
+		
+	
+	<!-- 通过ID更新 -->
+	<update id="updateByIdSelective" parameterType="com.im.status.model.user.TUser">
+		update t_user
+		<trim prefix="SET" prefixOverrides=", ">
+	    	<if test="userName != null"> , user_name = #{userName}</if>
+	    	<if test="password != null"> , password = #{password}</if>
+	    	<if test="userIcon != null"> , user_icon = #{userIcon}</if>
+	    	<if test="mobileNumber != null"> , mobile_number = #{mobileNumber}</if>
+	    	<if test="userStatus != null"> , user_status = #{userStatus}</if>
+	    	<if test="userState != null"> , user_state = #{userState}</if>
+	    	<if test="userChannel != null"> , user_channel = #{userChannel}</if>
+	    	<if test="lastLoginIp != null"> , last_login_ip = #{lastLoginIp}</if>
+	    	<if test="lastLoginTime != null"> , last_login_time = #{lastLoginTime}</if>
+	    	<if test="lastUpdateTime != null"> , last_update_time = #{lastUpdateTime}</if>
+		</trim>
+		where id = #{id}
+	</update>
+</mapper>

@@ -18,6 +18,17 @@ public class RequestParam implements Serializable{
     private Integer pageSize = Integer.MAX_VALUE;
 
     /**
+     * 按哪个字段排序
+     */
+    private String sorting;
+
+    /**
+     * 排序规则，默认顺序
+     */
+    private String sortType = "asc";
+
+
+    /**
      * 返回行数
      * @return
      */
@@ -31,6 +42,22 @@ public class RequestParam implements Serializable{
      */
     public Integer getLimitRows(){
         return (this.pageIndex-1)*this.pageSize;
+    }
+
+    public String getSorting() {
+        return sorting;
+    }
+
+    public void setSorting(String sorting) {
+        this.sorting = sorting;
+    }
+
+    public String getSortType() {
+        return sortType;
+    }
+
+    public void setSortType(String sortType) {
+        this.sortType = sortType;
     }
 
     public Integer getPageIndex() {

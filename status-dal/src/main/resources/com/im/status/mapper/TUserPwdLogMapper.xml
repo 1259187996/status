@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.im.status.mapper.TUserPwdLogMapper">
+<!-- 
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true"/>
+ -->
+	<resultMap id="BaseResultMap" type="com.im.status.model.user.TUserPwdLog" >
+		<id column="id" property="id"  />
+	    <result column="user_id" property="userId"  />
+	    <result column="password" property="password"  />
+	    <result column="update_ip" property="updateIp"  />
+	    <result column="update_addr" property="updateAddr"  />
+	    <result column="update_channel" property="updateChannel"  />
+	    <result column="update_user" property="updateUser"  />
+	    <result column="update_time" property="updateTime"  />
+
+    </resultMap>
+	
+	<sql id="Base_Column_List">
+    		id as id,
+    		user_id as userId,
+    		password as password,
+    		update_ip as updateIp,
+    		update_addr as updateAddr,
+    		update_channel as updateChannel,
+    		update_user as updateUser,
+    		update_time as updateTime
+	</sql>
+	
+	
+	<sql id="Base_Where_Clause">
+		<trim prefix="where" prefixOverrides="AND ">
+	    		<if test="id != null and id !='' "> and id = #{id}</if>
+	    		<if test="userId != null and userId !='' "> and user_id = #{userId}</if>
+	    		<if test="password != null and password !='' "> and password = #{password}</if>
+	    		<if test="updateIp != null and updateIp !='' "> and update_ip = #{updateIp}</if>
+	    		<if test="updateAddr != null and updateAddr !='' "> and update_addr = #{updateAddr}</if>
+	    		<if test="updateChannel != null and updateChannel !='' "> and update_channel = #{updateChannel}</if>
+	    		<if test="updateUser != null and updateUser !='' "> and update_user = #{updateUser}</if>
+	    		<if test="updateTime != null and updateTime !='' "> and update_time = #{updateTime}</if>
+		</trim>
+		<if test="sorting != null">order by  ${sorting} asc</if>
+		<if test="limitOffset != null and limitRows != null">
+			limit #{limitOffset}, #{limitRows}
+		</if>
+	</sql>
+	
+	<sql id="Base_Where_Count">
+		<trim prefix="where" prefixOverrides="AND ">
+	    		<if test="id != null and id !='' "> and id = #{id}</if>
+	    		<if test="userId != null and userId !='' "> and user_id = #{userId}</if>
+	    		<if test="password != null and password !='' "> and password = #{password}</if>
+	    		<if test="updateIp != null and updateIp !='' "> and update_ip = #{updateIp}</if>
+	    		<if test="updateAddr != null and updateAddr !='' "> and update_addr = #{updateAddr}</if>
+	    		<if test="updateChannel != null and updateChannel !='' "> and update_channel = #{updateChannel}</if>
+	    		<if test="updateUser != null and updateUser !='' "> and update_user = #{updateUser}</if>
+	    		<if test="updateTime != null and updateTime !='' "> and update_time = #{updateTime}</if>
+		</trim>
+	</sql>
+	
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="java.util.Map">
+		select count(id)
+		from t_user_pwd_log
+		<include refid="Base_Where_Count" />
+	</select>
+	
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from t_user_pwd_log
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_user_pwd_log
+		where t_user_pwd_log_id = #{0}
+	</select>
+	
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from t_user_pwd_log
+		where t_user_pwd_log_id = #{0}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from t_user_pwd_log
+		<include refid="Base_Where_Clause" />
+	</delete>
+	
+	<!-- 添加 -->	
+	<insert id="insert" parameterType="com.im.status.model.user.TUserPwdLog">
+		insert into t_user_pwd_log(
+    		id,
+    		user_id,
+    		password,
+    		update_ip,
+    		update_addr,
+    		update_channel,
+    		update_user,
+    		update_time
+		)
+		values (
+    		#{id},
+    		#{userId},
+    		#{password},
+    		#{updateIp},
+    		#{updateAddr},
+    		#{updateChannel},
+    		#{updateUser},
+    		#{updateTime}
+		)
+	</insert>
+		
+	
+	<!-- 通过ID更新 -->
+	<update id="updateByIdSelective" parameterType="com.im.status.model.user.TUserPwdLog">
+		update t_user_pwd_log
+		<trim prefix="SET" prefixOverrides=", ">
+	    	<if test="id != null"> , id = #{id}</if>
+	    	<if test="userId != null"> , user_id = #{userId}</if>
+	    	<if test="password != null"> , password = #{password}</if>
+	    	<if test="updateIp != null"> , update_ip = #{updateIp}</if>
+	    	<if test="updateAddr != null"> , update_addr = #{updateAddr}</if>
+	    	<if test="updateChannel != null"> , update_channel = #{updateChannel}</if>
+	    	<if test="updateUser != null"> , update_user = #{updateUser}</if>
+	    	<if test="updateTime != null"> , update_time = #{updateTime}</if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<update id="updateById" parameterType="com.im.status.model.user.TUserPwdLog">
+		update t_user_pwd_log
+		<trim prefix="SET" prefixOverrides=", "> 
+    		id = #{id},
+    		user_id = #{userId},
+    		password = #{password},
+    		update_ip = #{updateIp},
+    		update_addr = #{updateAddr},
+    		update_channel = #{updateChannel},
+    		update_user = #{updateUser},
+    		update_time = #{updateTime}
+    	</trim>
+		where id = #{id}
+	</update>
+</mapper>

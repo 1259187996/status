@@ -54,6 +54,10 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>alidayu</artifactId>
+        </dependency>
 
     </dependencies>
 
