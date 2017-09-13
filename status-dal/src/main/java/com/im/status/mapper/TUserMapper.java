@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface TUserMapper {
 
-	public List<TUser> select(@Param("params") UserReq userReq);
+	public List<TUser> select(UserReq userReq);
 	public TUser selectById(@Param("id") String id);
 	public void deleteById(@Param("id")String id);
-	public void delete(@Param("params") UserReq userReq);
+	public void delete(UserReq userReq);
 	public void insert(TUser tUser);
-	public void updateByIdSelective(@Param("params") UserReq userReq);
-	public long selectCount(@Param("params") UserReq userReq);
+	public void updateByIdSelective(UserReq userReq);
+	public long selectCount(UserReq userReq);
 
 }

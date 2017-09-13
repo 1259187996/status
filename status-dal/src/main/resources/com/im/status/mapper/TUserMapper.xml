@@ -40,51 +40,57 @@
 	
 	<sql id="Base_Where_Clause">
 		<trim prefix="where" prefixOverrides="AND ">
-	    		<if test="params.ids != null and params.ids !='' ">
+	    		<if test="ids != null and ids !='' ">
 					AND id IN
-					<foreach collection="params.ids" item="id" open="(" close=")" separator=",">
+					<foreach collection="ids" item="id" open="(" close=")" separator=",">
 						#{id}
 					</foreach>
 				</if>
-	    		<if test="params.userIds != null and params.userIds !='' ">
+	    		<if test="userIds != null and userIds !='' ">
 					and user_id IN
-					<foreach collection="params.userIds" item="userId" open="(" close=")" separator=",">
+					<foreach collection="userIds" item="userId" open="(" close=")" separator=",">
 						#{userId}
 					</foreach>
 				</if>
-	    		<if test="params.userName != null and params.userName !='' "> and user_name = #{userName}</if>
-	    		<if test="params.mobileNumber != null and params.mobileNumber !='' "> and mobile_number = #{mobileNumber}</if>
-	    		<if test="params.userStatuss != null and params.userStatuss !='' ">
+	    		<if test="userName != null and userName !='' "> and user_name = #{userName}</if>
+	    		<if test="mobileNumber != null and mobileNumber !='' "> and mobile_number = #{mobileNumber}</if>
+	    		<if test="userStatuss != null and userStatuss !='' ">
 	    		  and user_status IN
-					<foreach collection="params.userStatuss" item="userStatus" open="(" close=")" separator=",">
+					<foreach collection="userStatuss" item="userStatus" open="(" close=")" separator=",">
 						#{userStatus}
 					</foreach>
 				</if>
-	    		<if test="params.userStates != null and params.userStates !='' ">
+	    		<if test="userStates != null and userStates !='' ">
 					and user_state IN
-					<foreach collection="params.userStates" item="userState" open="(" close=")" separator=",">
+					<foreach collection="userStates" item="userState" open="(" close=")" separator=",">
 						#{userState}
 					</foreach>
 				</if>
-	    		<if test="params.userChannel != null and params.userChannel !='' "> and user_channel = #{userChannel}</if>
-	    		<if test="params.lastLoginIp != null and params.lastLoginIp !='' "> and last_login_ip = #{lastLoginIp}</if>
-	    		<if test="params.lastLoginTime.min != null and params.lastLoginTime.min !='' ">
-	    		  and last_login_time > #{params.lastLoginTime.min}
+	    		<if test="userChannel != null and userChannel !='' "> and user_channel = #{userChannel}</if>
+	    		<if test="lastLoginIp != null and lastLoginIp !='' "> and last_login_ip = #{lastLoginIp}</if>
+				<if test="lastLoginTime !=null and lastLoginTime != ''">
+					<if test="lastLoginTime.min != null and lastLoginTime.min !='' ">
+					  and last_login_time > #{lastLoginTime.min}
+					</if>
+					<if test="lastLoginTime.max != null and lastLoginTime.max !='' ">
+						and last_login_time =&lt; #{lastLoginTime.max}
+					</if>
 				</if>
-				<if test="params.lastLoginTime.max != null and params.lastLoginTime.max !='' ">
-					and last_login_time =&lt; #{params.lastLoginTime.max}
+				<if test="registerTime !=null and registerTime != ''">
+					<if test="registerTime.min != null and registerTime.min !='' ">
+					  and register_time > #{registerTime.min}
+					</if>
+					<if test="registerTime.max != null and registerTime.max !='' ">
+						and register_time =&lt; #{registerTime.max}
+					</if>
 				</if>
-	    		<if test="params.registerTime.min != null and params.registerTime.min !='' ">
-	    		  and register_time > #{params.registerTime.min}
-				</if>
-				<if test="params.registerTime.max != null and params.registerTime.max !='' ">
-					and register_time =&lt; #{params.registerTime.max}
-				</if>
-	    		<if test="params.lastUpdateTime.min != null and params.lastUpdateTime.min !='' ">
-	    		  and last_update_time > #{params.lastUpdateTime.min}
-				</if>
-				<if test="params.lastUpdateTime.max != null and params.lastUpdateTime.max !='' ">
-					and last_update_time =&lt; #{params.lastUpdateTime.max}
+				<if test="lastUpdateTime !=null and lastUpdateTime != ''">
+					<if test="lastUpdateTime.min != null and lastUpdateTime.min !='' ">
+					  and last_update_time > #{lastUpdateTime.min}
+					</if>
+					<if test="lastUpdateTime.max != null and lastUpdateTime.max !='' ">
+						and last_update_time =&lt; #{lastUpdateTime.max}
+					</if>
 				</if>
 		</trim>
 		<if test="sorting != null">order by  ${sorting} #{sortType}</if>
@@ -95,51 +101,51 @@
 	
 	<sql id="Base_Where_Count">
 		<trim prefix="where" prefixOverrides="AND ">
-			<if test="params.ids != null and params.ids !='' ">
+			<if test="ids != null and ids !='' ">
 				AND id IN
-				<foreach collection="params.ids" item="id" open="(" close=")" separator=",">
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
 					#{id}
 				</foreach>
 			</if>
-			<if test="params.userIds != null and params.userIds !='' ">
+			<if test="userIds != null and userIds !='' ">
 				and user_id IN
-				<foreach collection="params.userIds" item="userId" open="(" close=")" separator=",">
+				<foreach collection="userIds" item="userId" open="(" close=")" separator=",">
 					#{userId}
 				</foreach>
 			</if>
-			<if test="params.userName != null and params.userName !='' "> and user_name = #{userName}</if>
-			<if test="params.mobileNumber != null and params.mobileNumber !='' "> and mobile_number = #{mobileNumber}</if>
-			<if test="params.userStatuss != null and params.userStatuss !='' ">
+			<if test="userName != null and userName !='' "> and user_name = #{userName}</if>
+			<if test="mobileNumber != null and mobileNumber !='' "> and mobile_number = #{mobileNumber}</if>
+			<if test="userStatuss != null and userStatuss !='' ">
 				and user_status IN
-				<foreach collection="params.userStatuss" item="userStatus" open="(" close=")" separator=",">
+				<foreach collection="userStatuss" item="userStatus" open="(" close=")" separator=",">
 					#{userStatus}
 				</foreach>
 			</if>
-			<if test="params.userStates != null and params.userStates !='' ">
+			<if test="userStates != null and userStates !='' ">
 				and user_state IN
-				<foreach collection="params.userStates" item="userState" open="(" close=")" separator=",">
+				<foreach collection="userStates" item="userState" open="(" close=")" separator=",">
 					#{userState}
 				</foreach>
 			</if>
-			<if test="params.userChannel != null and params.userChannel !='' "> and user_channel = #{userChannel}</if>
-			<if test="params.lastLoginIp != null and params.lastLoginIp !='' "> and last_login_ip = #{lastLoginIp}</if>
-			<if test="params.lastLoginTime.min != null and params.lastLoginTime.min !='' ">
-				and last_login_time > #{params.lastLoginTime.min}
+			<if test="userChannel != null and userChannel !='' "> and user_channel = #{userChannel}</if>
+			<if test="lastLoginIp != null and lastLoginIp !='' "> and last_login_ip = #{lastLoginIp}</if>
+			<if test="lastLoginTime.min != null and lastLoginTime.min !='' ">
+				and last_login_time > #{lastLoginTime.min}
 			</if>
-			<if test="params.lastLoginTime.max != null and params.lastLoginTime.max !='' ">
-				and last_login_time =&lt; #{params.lastLoginTime.max}
+			<if test="lastLoginTime.max != null and lastLoginTime.max !='' ">
+				and last_login_time =&lt; #{lastLoginTime.max}
 			</if>
-			<if test="params.registerTime.min != null and params.registerTime.min !='' ">
-				and register_time > #{params.registerTime.min}
+			<if test="registerTime.min != null and registerTime.min !='' ">
+				and register_time > #{registerTime.min}
 			</if>
-			<if test="params.registerTime.max != null and params.registerTime.max !='' ">
-				and register_time =&lt; #{params.registerTime.max}
+			<if test="registerTime.max != null and registerTime.max !='' ">
+				and register_time =&lt; #{registerTime.max}
 			</if>
-			<if test="params.lastUpdateTime.min != null and params.lastUpdateTime.min !='' ">
-				and last_update_time > #{params.lastUpdateTime.min}
+			<if test="lastUpdateTime.min != null and lastUpdateTime.min !='' ">
+				and last_update_time > #{lastUpdateTime.min}
 			</if>
-			<if test="params.lastUpdateTime.max != null and params.lastUpdateTime.max !='' ">
-				and last_update_time =&lt; #{params.lastUpdateTime.max}
+			<if test="lastUpdateTime.max != null and lastUpdateTime.max !='' ">
+				and last_update_time =&lt; #{lastUpdateTime.max}
 			</if>
 		</trim>
 	</sql>
