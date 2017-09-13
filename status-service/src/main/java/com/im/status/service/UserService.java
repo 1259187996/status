@@ -1,7 +1,7 @@
 package com.im.status.service;
 
 import com.im.status.base.model.RespModel;
-import com.im.status.base.model.StatusException;
+import com.im.status.base.exception.StatusException;
 import com.im.status.model.request.RegisterParam;
 
 /**

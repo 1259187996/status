@@ -179,4 +179,7 @@ public class TUserInfo  implements Serializable{
 		this.updateTime = updateTime;
 		this.updateUser = updateUser;
 	}
+
+	public TUserInfo() {
+	}
 }

@@ -13,34 +13,34 @@ public class UserResp implements Serializable{
 
     private static final Long serialVersionUID = 1L;
 
-    private Integer ids;//自增Id
-    private String userIds;//用户ID
+    private Integer id;//自增Id
+    private String userId;//用户ID
     private String userName;//用户名
     private String password;//用户密码
     private String userIcon;//用户头像
     private String mobileNumber;//用户手机号
-    private String userStatuss;//用户状态(是否在线等)
-    private String userStates;//用户状态(禁用等)
+    private String userStatus;//用户状态(是否在线等)
+    private String userState;//用户状态(禁用等)
     private String userChannel;//用户类别
     private String lastLoginIp;//最后登录IP
     private Date lastLoginTime;//最后登录时间
     private Date registerTime;//注册时间
     private Date lastUpdateTime;//最后修改时间
 
-    public Integer getIds() {
-        return ids;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIds(Integer ids) {
-        this.ids = ids;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getUserIds() {
-        return userIds;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserIds(String userIds) {
-        this.userIds = userIds;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -75,20 +75,20 @@ public class UserResp implements Serializable{
         this.mobileNumber = mobileNumber;
     }
 
-    public String getUserStatuss() {
-        return userStatuss;
+    public String getUserStatus() {
+        return userStatus;
     }
 
-    public void setUserStatuss(String userStatuss) {
-        this.userStatuss = userStatuss;
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus;
     }
 
-    public String getUserStates() {
-        return userStates;
+    public String getUserState() {
+        return userState;
     }
 
-    public void setUserStates(String userStates) {
-        this.userStates = userStates;
+    public void setUserState(String userState) {
+        this.userState = userState;
     }
 
     public String getUserChannel() {
@@ -134,14 +134,14 @@ public class UserResp implements Serializable{
     @Override
     public String toString() {
         return "UserResp{" +
-                "ids=" + ids +
-                ", userIds='" + userIds + '\'' +
+                "id=" + id +
+                ", userId='" + userId + '\'' +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", userIcon='" + userIcon + '\'' +
                 ", mobileNumber='" + mobileNumber + '\'' +
-                ", userStatuss='" + userStatuss + '\'' +
-                ", userStates='" + userStates + '\'' +
+                ", userStatus='" + userStatus + '\'' +
+                ", userState='" + userState + '\'' +
                 ", userChannel='" + userChannel + '\'' +
                 ", lastLoginIp='" + lastLoginIp + '\'' +
                 ", lastLoginTime=" + lastLoginTime +

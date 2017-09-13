@@ -169,4 +169,6 @@ public class TUser implements Serializable{
         this.lastUpdateTime = lastUpdateTime;
     }
 
+    public TUser() {
+    }
 }

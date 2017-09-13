@@ -1,11 +1,11 @@
 package com.im.status.controller;
 
-import com.im.status.base.model.Const;
+import com.im.status.base.constants.Const;
+import com.im.status.base.logger.StatusLogger;
 import com.im.status.base.model.Page;
 import com.im.status.base.model.RespCode;
 import com.im.status.base.model.RespModel;
 import com.im.status.base.util.JsonUtils;
-import org.apache.log4j.Logger;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -20,7 +20,8 @@ import java.io.IOException;
  */
 public class BaseController {
 
-    private Logger logger = Logger.getLogger(BaseController.class);
+    private StatusLogger logger = StatusLogger.getLogger(BaseController.class);
+
 
     /**
      * 得到request对象

@@ -1,6 +1,6 @@
 package com.im.status.filter;
 
-import org.apache.log4j.Logger;
+import com.im.status.base.logger.StatusLogger;
 
 import javax.servlet.*;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.io.IOException;
  */
 public class LoginFilter implements Filter{
 
-    Logger logger = Logger.getLogger(LoginFilter.class);
+    private StatusLogger logger = StatusLogger.getLogger(LoginFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

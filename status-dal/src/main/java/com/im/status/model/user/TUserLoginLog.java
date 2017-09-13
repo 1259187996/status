@@ -85,4 +85,7 @@ public class TUserLoginLog  implements Serializable{
 		this.loginPlatform = loginPlatform;
 		this.logoutTime = logoutTime;
 	}
+
+	public TUserLoginLog() {
+	}
 }

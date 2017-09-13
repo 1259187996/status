@@ -94,4 +94,7 @@ public class TUserPwdLog  implements Serializable{
 		this.updateUser = updateUser;
 		this.updateTime = updateTime;
 	}
+
+	public TUserPwdLog() {
+	}
 }

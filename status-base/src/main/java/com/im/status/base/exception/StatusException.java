@@ -1,4 +1,7 @@
-package com.im.status.base.model;
+package com.im.status.base.exception;
+
+import com.im.status.base.model.RespCode;
+import com.im.status.base.model.RespModel;
 
 import java.io.Serializable;
 

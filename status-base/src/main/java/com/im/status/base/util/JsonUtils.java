@@ -6,9 +6,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
- * 处理json和对象的序列以及反序列化
- * @author jason.yang
- * @version $Id: JsonUtils.java, v 0.1 2013-1-23 下午7:58:32 jason.yang Exp $
+ * @author zhizhuang.yang
+ * @date 2017年9月13日
+ * @version 1.0.0
+ * @description JSON工具类
  */
 @SuppressWarnings(value = { "unchecked", "rawtypes" })
 public abstract class JsonUtils {

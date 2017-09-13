@@ -1,9 +1,11 @@
 package com.im.status.service.impl;
 
-import com.im.status.base.model.Const;
+import com.im.status.base.constants.Const;
+import com.im.status.base.logger.StatusLogger;
 import com.im.status.base.model.RespCode;
 import com.im.status.base.model.RespModel;
-import com.im.status.base.model.StatusException;
+import com.im.status.base.exception.StatusException;
+import com.im.status.base.util.Util;
 import com.im.status.mapper.TSmsLogMapper;
 import com.im.status.mapper.TUserMapper;
 import com.im.status.model.req.UserReq;
@@ -15,12 +17,10 @@ import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
 import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by zhizhuang.yang on 2017/9/12.
@@ -28,7 +28,7 @@ import java.util.Random;
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
-    private Logger logger = Logger.getLogger(UserServiceImpl.class);
+    private StatusLogger logger = StatusLogger.getLogger(UserServiceImpl.class);
 
     @Autowired
     private TUserMapper tUserMapper;
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         UserReq userReq = new UserReq();
         userReq.setUserName(username);
         List<TUser> userInfos = tUserMapper.select(userReq);
-        String code = getMessageCode();
+        String code = Util.getMessageCode();
         respModel.setRespData(code);
         if(type.equals(Const.MESSAGE_TYPE_REISTER)){
             if(!userInfos.isEmpty()){
@@ -67,12 +67,6 @@ public class UserServiceImpl implements UserService {
         return respModel;
     }
 
-    //生成验证码
-    public static String getMessageCode(){
-        Random random = new Random();
-        return String.valueOf(100000+random.nextInt(899999));
-    }
-
     //发送短信
     public boolean sendMessage(String phone,String code,String type)throws StatusException {
         boolean flag = true;
@@ -88,7 +82,7 @@ public class UserServiceImpl implements UserService {
             req.setSmsTemplateCode(Const.SMS_TEMPLATE_CODE);
             rsp = client.execute(req);
         }catch (Exception e) {
-            e.printStackTrace();
+            logger.error(RespCode.MESSAGE_SEND_FAIL.getCodeDesc(),e);
         }
         String status="";
         if(rsp.isSuccess()){
@@ -107,7 +101,7 @@ public class UserServiceImpl implements UserService {
             smsLog.setSmsContent(code);
             tSmsLogMapper.insert(smsLog);
         }catch(Exception e){
-            logger.info("发送短信异常:" + e);
+            logger.error("插入短信日志异常:" , e);
         }
         return flag;
     }
