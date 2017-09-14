@@ -1,7 +1,5 @@
 package com.im.status.controller;
 
-import com.im.status.base.cache.RedisCache;
-import com.im.status.base.constants.Const;
 import com.im.status.base.logger.StatusLogger;
 import com.im.status.base.model.RespCode;
 import com.im.status.base.model.RespModel;
@@ -32,9 +30,6 @@ public class UserController extends BaseController{
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private RedisCache redisCache;
-
     @RequestMapping(value = "/register.do",method = RequestMethod.POST)
     @ResponseBody
     public void register(HttpServletResponse response, HttpServletRequest request){
@@ -62,8 +57,6 @@ public class UserController extends BaseController{
             }
             if(flag){
                 respModel = userService.sendCode(username,type);
-                if(respModel.getRespCode().equals(RespCode.SUCCESS.getReturnCode()))
-                    redisCache.set(username+type, respModel.getRespData(), Const.MESSAGE_OUT_TIME);
             }
             logger.info("验证码发送成功,userName:"+username+",code:"+respModel.getRespData());
             this.success(response,respModel);

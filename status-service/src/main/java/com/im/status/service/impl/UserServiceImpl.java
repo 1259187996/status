@@ -1,5 +1,6 @@
 package com.im.status.service.impl;
 
+import com.im.status.base.cache.RedisCache;
 import com.im.status.base.constants.Const;
 import com.im.status.base.logger.StatusLogger;
 import com.im.status.base.model.RespCode;
@@ -36,6 +37,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private TSmsLogMapper tSmsLogMapper;
 
+    @Autowired
+    private RedisCache redisCache;
+
     public String register(RegisterParam registerParam) {
         return null;
     }
@@ -47,7 +51,7 @@ public class UserServiceImpl implements UserService {
         List<TUser> userInfos = tUserMapper.select(userReq);
         String code = Util.getMessageCode();
         respModel.setRespData(code);
-        if(type.equals(Const.MESSAGE_TYPE_REISTER)){
+        if(type.equals(Const.MESSAGE_TYPE_REGISTER)){
             if(!userInfos.isEmpty()){
                 throw new StatusException(respModel,RespCode.REGISTER_USER_EXIST);
             }else{
@@ -100,6 +104,7 @@ public class UserServiceImpl implements UserService {
             smsLog.setSmsType(type);
             smsLog.setSmsContent(code);
             tSmsLogMapper.insert(smsLog);
+            redisCache.set(phone+type, code, Const.MESSAGE_OUT_TIME);
         }catch(Exception e){
             logger.error("插入短信日志异常:" , e);
         }

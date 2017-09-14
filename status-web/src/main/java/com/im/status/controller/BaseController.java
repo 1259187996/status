@@ -35,28 +35,24 @@ public class BaseController {
     /**
      * 成功方法,直接返回数据
      * @param response
-     * @param data
+     * @param respModel
      */
-    protected <T>void success(HttpServletResponse response, T data) {
-        RespModel<T> respModel = new RespModel<>();
+    protected <T>void success(HttpServletResponse response, RespModel<T> respModel) {
         respModel.setRespCode(RespCode.SUCCESS.getReturnCode());
         respModel.setRespDesc(RespCode.SUCCESS.getCodeDesc());
-        respModel.setRespData(data);
         this.writeResponse(response,respModel);
     }
 
     /**
      * 成功方法,直接返回数据（带分页）
      * @param response
-     * @param data
+     * @param respModel
      * @param page
      */
-    protected <T>void success(HttpServletResponse response, T data, Page page) {
-        RespModel<T> respModel = new RespModel<>();
+    protected <T>void success(HttpServletResponse response, RespModel<T> respModel, Page page) {
         respModel.setRespCode(RespCode.SUCCESS.getReturnCode());
         respModel.setRespDesc(RespCode.SUCCESS.getCodeDesc());
         respModel.setPage(page);
-        respModel.setRespData(data);
         this.writeResponse(response,respModel);
     }
 
