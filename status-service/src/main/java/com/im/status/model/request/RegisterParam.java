@@ -11,7 +11,6 @@ public class RegisterParam implements Serializable {
 
     private String userName;//用户名
     private String password;//密码
-    private String rePassword;//重复密码
     private String smsCode;//验证码
     private String channel;//渠道
 
@@ -29,14 +28,6 @@ public class RegisterParam implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRePassword() {
-        return rePassword;
-    }
-
-    public void setRePassword(String rePassword) {
-        this.rePassword = rePassword;
     }
 
     public String getSmsCode() {
@@ -60,7 +51,6 @@ public class RegisterParam implements Serializable {
         return "RegisterParam{" +
                 "userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
-                ", rePassword='" + rePassword + '\'' +
                 ", smsCode='" + smsCode + '\'' +
                 ", channel='" + channel + '\'' +
                 '}';

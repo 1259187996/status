@@ -1,10 +1,14 @@
 package com.im.status.controller;
 
+import com.im.status.base.exception.StatusException;
 import com.im.status.base.logger.StatusLogger;
 import com.im.status.base.model.RespCode;
 import com.im.status.base.model.RespModel;
 import com.im.status.base.util.ParamUtil;
+import com.im.status.model.request.RegisterParam;
+import com.im.status.model.user.TUser;
 import com.im.status.service.UserService;
+import net.sf.json.JSONObject;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,11 +34,89 @@ public class UserController extends BaseController{
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/register.do",method = RequestMethod.POST)
+    /**
+     * 注册
+     * @param username
+     * @param password
+     * @param smsCode
+     * @param channel
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value="/register",method=RequestMethod.POST)
     @ResponseBody
-    public void register(HttpServletResponse response, HttpServletRequest request){
-
+    public void register(HttpServletRequest request,HttpServletResponse response,
+                         @Param("username")String username,@Param("password")String password,@Param("rePassword")String rePassword,
+                         @Param("smsCode")String smsCode,@Param("channel")String channel){
+        logger.info("注册,入参："+ JSONObject.fromObject(request.getParameterMap()));
+        RespModel<String> respModel = new RespModel<String>();
+        try {
+            if(checkRegisterParam(username,password,rePassword,smsCode,channel)){
+                RegisterParam registerParam = new RegisterParam();
+                registerParam.setUserName(username);
+                registerParam.setPassword(password);
+                registerParam.setSmsCode(smsCode);
+                registerParam.setChannel(channel);
+                logger.info(registerParam.toString());
+                respModel = userService.register(registerParam);
+                logger.info("注册成功,userName:"+username+",userId:"+respModel.getRespData());
+                this.success(respModel);
+            }else{
+                this.failed(respModel,RespCode.QUERY_PARAM_ERROR);
+            }
+        }catch (StatusException e){
+            failed(respModel,e.getRespCode());
+            logger.error(e);
+        }catch (Exception e) {
+            failed(respModel,e.getMessage());
+            logger.error(e);
+        }finally{
+            this.writeResponse(response,respModel);
+            logger.info("注册结束");
+        }
     }
+
+    private boolean checkRegisterParam(String username, String password, String rePassword, String smsCode, String channel) {
+        return true;
+    }
+
+    /**
+     * 登录
+     * @param username
+     * @param password
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value="/login",method=RequestMethod.POST)
+    @ResponseBody
+    public void login(HttpServletRequest request,HttpServletResponse response,
+                         @Param("username")String username,@Param("password")String password){
+        logger.info("登录,入参："+ JSONObject.fromObject(request.getParameterMap()));
+        RespModel<TUser> respModel = new RespModel<TUser>();
+        try {
+            if(checkLoginParam(username,password)){
+                respModel = userService.login(username,password);
+                logger.info("登录成功,userName:"+username);
+                this.success(respModel);
+            }else{
+                this.failed(respModel,RespCode.QUERY_PARAM_ERROR);
+            }
+        }catch (StatusException e){
+            failed(respModel,e.getRespCode());
+            logger.error(e);
+        }catch (Exception e) {
+            failed(respModel,e.getMessage());
+            logger.error(e);
+        }finally{
+            this.writeResponse(response,respModel);
+            logger.info("登录结束");
+        }
+    }
+
+    private boolean checkLoginParam(String username, String password) {
+        return true;
+    }
+
 
     /**
      * 发送验证码
@@ -50,21 +132,21 @@ public class UserController extends BaseController{
         logger.info("发送验证码,username:"+username+",type:"+type);
         RespModel<String> respModel = new RespModel<String>();
         try {
-            boolean flag = true;
             if(!ParamUtil.checkPhone(username)){
                 this.failed(respModel,RespCode.QUERY_PARAM_ERROR);
-                flag = false;
-            }
-            if(flag){
+            }else{
                 respModel = userService.sendCode(username,type);
+                logger.info("验证码发送成功,userName:"+username+",code:"+respModel.getRespData());
+                this.success(respModel);
             }
-            logger.info("验证码发送成功,userName:"+username+",code:"+respModel.getRespData());
-            this.success(response,respModel);
-        } catch (Exception e) {
+        }catch (StatusException e){
+            failed(respModel,e.getRespCode());
+            logger.error(e);
+        }catch (Exception e) {
             logger.error(e);
             failed(respModel,e.getMessage());
-            writeResponse(response,respModel);
         }finally{
+            writeResponse(response,respModel);
             logger.info("发送验证码结束");
         }
     }

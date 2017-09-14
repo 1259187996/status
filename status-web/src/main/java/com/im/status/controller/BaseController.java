@@ -34,26 +34,22 @@ public class BaseController {
 
     /**
      * 成功方法,直接返回数据
-     * @param response
      * @param respModel
      */
-    protected <T>void success(HttpServletResponse response, RespModel<T> respModel) {
+    protected <T>void success(RespModel<T> respModel) {
         respModel.setRespCode(RespCode.SUCCESS.getReturnCode());
         respModel.setRespDesc(RespCode.SUCCESS.getCodeDesc());
-        this.writeResponse(response,respModel);
     }
 
     /**
      * 成功方法,直接返回数据（带分页）
-     * @param response
      * @param respModel
      * @param page
      */
-    protected <T>void success(HttpServletResponse response, RespModel<T> respModel, Page page) {
+    protected <T>void success(RespModel<T> respModel, Page page) {
         respModel.setRespCode(RespCode.SUCCESS.getReturnCode());
         respModel.setRespDesc(RespCode.SUCCESS.getCodeDesc());
         respModel.setPage(page);
-        this.writeResponse(response,respModel);
     }
 
     /**
@@ -80,7 +76,7 @@ public class BaseController {
      */
     protected void failed(RespModel respModel, String error_message) {
         respModel.setRespCode(RespCode.SYSTEM_EXCEPTION.getReturnCode());
-        respModel.setRespDesc(RespCode.SYSTEM_EXCEPTION.getCodeDesc()+error_message);
+        respModel.setRespDesc(RespCode.SYSTEM_EXCEPTION.getCodeDesc()+","+error_message);
     }
 
     /**

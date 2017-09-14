@@ -1,6 +1,7 @@
 package com.im.status.base.util;
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * @author zhizhuang.yang
@@ -14,6 +15,15 @@ public class Util {
     public static String getMessageCode(){
         Random random = new Random();
         return String.valueOf(100000+random.nextInt(899999));
+    }
+
+    public static String getUUID(){
+        String uuid = UUID.randomUUID().toString().replaceAll("-","");
+        return uuid.toUpperCase();
+    }
+
+    public static void main(String[] args) {
+        System.out.print(getUUID());
     }
 
 }

@@ -95,7 +95,7 @@
 		</trim>
 		<if test="sorting != null">order by  ${sorting} #{sortType}</if>
 		<if test="limitOffset != null and limitRows != null">
-			limit #{limitOffset}, #{limitRows}
+			limit #{limitRows}, #{limitOffset}
 		</if>
 	</sql>
 	
