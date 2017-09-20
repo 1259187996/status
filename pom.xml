@@ -19,6 +19,7 @@
         <spring.version>4.3.7.RELEASE</spring.version>
         <mybatis.version>3.2.8</mybatis.version>
         <lucene.version>5.3.1</lucene.version>
+        <shiro.version>1.2.3</shiro.version>
     </properties>
 
     <dependencyManagement>
@@ -220,6 +221,32 @@
                 <artifactId>jedis</artifactId>
                 <version>2.9.0</version>
             </dependency>
+            <!-- shiro -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-ehcache</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-core</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-web</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-quartz</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -268,6 +295,8 @@
                 <redis.maxTotal>600</redis.maxTotal>
                 <redis.maxWaitMillis>1000</redis.maxWaitMillis>
                 <redis.testOnBorrow>true</redis.testOnBorrow>
+                <!--shiro auth -->
+                <shiro.authQuery>select password from t_user where user_name = ?</shiro.authQuery>
             </properties>
         </profile>
 

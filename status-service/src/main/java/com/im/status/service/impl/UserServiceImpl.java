@@ -23,11 +23,16 @@ import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
 import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
 import java.util.List;
@@ -84,8 +89,41 @@ public class UserServiceImpl implements UserService {
         return respModel;
     }
 
-    public RespModel<TUser> login(String username, String password) throws StatusException {
-        return null;
+    public RespModel<TUser> login(String userName, String password) throws StatusException {
+        RespModel<TUser> respModel = new RespModel<TUser>();
+        UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+        token.setRememberMe(true);
+        Subject subject = SecurityUtils.getSubject();
+        try {
+            subject.login(token);
+            if (subject.isAuthenticated()) {
+                TUser user = (TUser)subject.getSession().getAttribute(userName);
+                respModel.setRespData(user);
+            } else {
+            }
+        } catch (IncorrectCredentialsException e) {
+            throw new StatusException(respModel,RespCode.LOGIN_PASSWORD_ERROR);
+        } catch (ExcessiveAttemptsException e) {
+            throw new StatusException(respModel,RespCode.LOGIN_ERROR_TIMES_MANY);
+        } catch (LockedAccountException e) {
+            throw new StatusException(respModel,RespCode.USER_ACCOUNT_LOCKED);
+        } catch (DisabledAccountException e) {
+            throw new StatusException(respModel,RespCode.USER_ACCOUNT_UNUSED);
+        } catch (ExpiredCredentialsException e) {
+            throw new StatusException(respModel,RespCode.USER_ACCOUNT_OVER);
+        } catch (UnknownAccountException e) {
+            throw new StatusException(respModel,RespCode.LOGIN_USER_NOT_EXIST);
+        } catch (UnauthorizedException e) {
+            throw new StatusException(respModel,RespCode.USER_ACCOUNT_UN_AUTH);
+        }
+        return respModel;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void loginSuccess(String userName)throws StatusException{
+        UserReq userReq = new UserReq();
+        userReq.setUserName(userName);
+        List<TUser> tUser = tUserMapper.select(userReq);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -118,6 +156,7 @@ public class UserServiceImpl implements UserService {
     }
 
     //发送短信
+    @Transactional(propagation = Propagation.REQUIRED)
     public boolean sendMessage(String phone,String code,String type)throws StatusException {
         boolean flag = true;
         AlibabaAliqinFcSmsNumSendResponse rsp = null;
@@ -143,18 +182,14 @@ public class UserServiceImpl implements UserService {
             status = RespCode.SYSTEM_EXCEPTION.getReturnCode();
             flag = false;
         }
-        try{
-            //插入信息到数据库
-            TSmsLog smsLog = new TSmsLog();
-            smsLog.setMoblieNumber(phone);
-            smsLog.setSmsCode(code);
-            smsLog.setSmsStatus(status);
-            smsLog.setSmsType(type);
-            smsLog.setSmsContent(code);
-            tSmsLogMapper.insert(smsLog);
-        }catch(Exception e){
-            logger.error("插入短信日志异常:" , e);
-        }
+        //插入信息到数据库
+        TSmsLog smsLog = new TSmsLog();
+        smsLog.setMoblieNumber(phone);
+        smsLog.setSmsCode(code);
+        smsLog.setSmsStatus(status);
+        smsLog.setSmsType(type);
+        smsLog.setSmsContent(code);
+        tSmsLogMapper.insert(smsLog);
         return flag;
     }
 }

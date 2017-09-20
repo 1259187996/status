@@ -21,6 +21,16 @@ public enum RespCode {
 
     LOGIN_PASSWORD_ERROR("502", "账号密码不正确"),
 
+    LOGIN_ERROR_TIMES_MANY("503", "密码错误次数过多"),
+
+    USER_ACCOUNT_LOCKED("504", "账户被锁定"),
+
+    USER_ACCOUNT_UNUSED("505","账户被禁用"),
+
+    USER_ACCOUNT_OVER("506","账户已过期"),
+
+    USER_ACCOUNT_UN_AUTH("507","用户没有相关权限"),
+
     REGISTER_USER_EXIST("510", "注册账号已存在"),
 
     REGISTER_USER_NOT_EXIST("511", "该账号尚未注册"),
