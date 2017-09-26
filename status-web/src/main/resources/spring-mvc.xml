@@ -19,7 +19,7 @@
     <!-- 定义跳转的文件的前后缀 ，视图模式配置-->
     <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/view/" />
-        <property name="suffix" value=".html" />
+        <property name="suffix" value=".jsp" />
     </bean>
 
     <!-- 静态资源访问 -->
@@ -27,8 +27,6 @@
 
     <!-- 静态资源访问 -->
     <!--<mvc:resources mapping="/webdemo/**"  location="/webdemo/"/>-->
-
-
 
 
 </beans>

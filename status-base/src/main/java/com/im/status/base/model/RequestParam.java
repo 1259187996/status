@@ -27,6 +27,11 @@ public class RequestParam implements Serializable{
      */
     private String sortType = "asc";
 
+    /**
+     * 是否已删除,默认未删除
+     */
+    private boolean isDelete = false;
+
 
     /**
      * 返回行数
@@ -74,5 +79,13 @@ public class RequestParam implements Serializable{
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public boolean getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(boolean delete) {
+        isDelete = delete;
     }
 }

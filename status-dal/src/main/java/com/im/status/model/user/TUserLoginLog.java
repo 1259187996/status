@@ -1,6 +1,7 @@
 package com.im.status.model.user;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author zhizhuang.yang
@@ -15,10 +16,10 @@ public class TUserLoginLog  implements Serializable{
 	private Integer id;//自增ID
 	private String userId;//用户ID
 	private String loginIp;//用户登录IP
-	private String loginTime;//用户登录时间
+	private Date loginTime;//用户登录时间
 	private String loginAddr;//用户登录地点
 	private String loginPlatform;//用户登录平台
-	private String logoutTime;//用户退出时间
+	private Date logoutTime;//用户退出时间
 
 	public Integer getId() {
 		return id;
@@ -38,12 +39,6 @@ public class TUserLoginLog  implements Serializable{
 	public void setLoginIp(String loginIp) {
 		this.loginIp=loginIp;
 	}
-	public String getLoginTime() {
-		return loginTime;
-	}
-	public void setLoginTime(String loginTime) {
-		this.loginTime=loginTime;
-	}
 	public String getLoginAddr() {
 		return loginAddr;
 	}
@@ -56,11 +51,21 @@ public class TUserLoginLog  implements Serializable{
 	public void setLoginPlatform(String loginPlatform) {
 		this.loginPlatform=loginPlatform;
 	}
-	public String getLogoutTime() {
+
+	public Date getLoginTime() {
+		return loginTime;
+	}
+
+	public void setLoginTime(Date loginTime) {
+		this.loginTime = loginTime;
+	}
+
+	public Date getLogoutTime() {
 		return logoutTime;
 	}
-	public void setLogoutTime(String logoutTime) {
-		this.logoutTime=logoutTime;
+
+	public void setLogoutTime(Date logoutTime) {
+		this.logoutTime = logoutTime;
 	}
 
 	@Override
@@ -76,7 +81,7 @@ public class TUserLoginLog  implements Serializable{
 				'}';
 	}
 
-	public TUserLoginLog(Integer id, String userId, String loginIp, String loginTime, String loginAddr, String loginPlatform, String logoutTime) {
+	public TUserLoginLog(Integer id, String userId, String loginIp, Date loginTime, String loginAddr, String loginPlatform, Date logoutTime) {
 		this.id = id;
 		this.userId = userId;
 		this.loginIp = loginIp;

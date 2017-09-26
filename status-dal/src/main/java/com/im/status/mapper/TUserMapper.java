@@ -13,7 +13,7 @@ public interface TUserMapper {
 	public void deleteById(@Param("id")String id);
 	public void delete(UserReq userReq);
 	public void insert(TUser tUser);
-	public void updateByIdSelective(UserReq userReq);
+	public void updateByIdSelective(TUser tUser);
 	public long selectCount(UserReq userReq);
 
 }

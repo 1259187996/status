@@ -9,31 +9,33 @@ import com.im.status.base.exception.StatusException;
 import com.im.status.base.logger.StatusLogger;
 import com.im.status.base.model.RespCode;
 import com.im.status.base.model.RespModel;
+import com.im.status.base.util.AddressUtils;
+import com.im.status.base.util.RequestUtil;
 import com.im.status.base.util.Util;
 import com.im.status.mapper.TSmsLogMapper;
 import com.im.status.mapper.TUserInfoMapper;
+import com.im.status.mapper.TUserLoginLogMapper;
 import com.im.status.mapper.TUserMapper;
 import com.im.status.model.req.UserReq;
 import com.im.status.model.request.RegisterParam;
+import com.im.status.model.response.LoginResp;
 import com.im.status.model.user.TSmsLog;
 import com.im.status.model.user.TUser;
 import com.im.status.model.user.TUserInfo;
+import com.im.status.model.user.TUserLoginLog;
 import com.im.status.service.UserService;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
 import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
-import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.subject.Subject;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -53,6 +55,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TSmsLogMapper tSmsLogMapper;
+
+    @Autowired
+    private TUserLoginLogMapper tUserLoginLogMapper;
 
     @Autowired
     private RedisCache redisCache;
@@ -89,41 +94,52 @@ public class UserServiceImpl implements UserService {
         return respModel;
     }
 
-    public RespModel<TUser> login(String userName, String password) throws StatusException {
-        RespModel<TUser> respModel = new RespModel<TUser>();
-        UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
-        token.setRememberMe(true);
-        Subject subject = SecurityUtils.getSubject();
-        try {
-            subject.login(token);
-            if (subject.isAuthenticated()) {
-                TUser user = (TUser)subject.getSession().getAttribute(userName);
-                respModel.setRespData(user);
-            } else {
-            }
-        } catch (IncorrectCredentialsException e) {
-            throw new StatusException(respModel,RespCode.LOGIN_PASSWORD_ERROR);
-        } catch (ExcessiveAttemptsException e) {
-            throw new StatusException(respModel,RespCode.LOGIN_ERROR_TIMES_MANY);
-        } catch (LockedAccountException e) {
-            throw new StatusException(respModel,RespCode.USER_ACCOUNT_LOCKED);
-        } catch (DisabledAccountException e) {
-            throw new StatusException(respModel,RespCode.USER_ACCOUNT_UNUSED);
-        } catch (ExpiredCredentialsException e) {
-            throw new StatusException(respModel,RespCode.USER_ACCOUNT_OVER);
-        } catch (UnknownAccountException e) {
-            throw new StatusException(respModel,RespCode.LOGIN_USER_NOT_EXIST);
-        } catch (UnauthorizedException e) {
-            throw new StatusException(respModel,RespCode.USER_ACCOUNT_UN_AUTH);
+    @Transactional(propagation = Propagation.REQUIRED)
+    public RespModel<LoginResp> login(String userName, String password, HttpServletRequest request) throws StatusException {
+        RespModel<LoginResp> respModel = new RespModel<LoginResp>();
+        UserReq userReq = new UserReq();
+        userReq.setUserName(userName);
+        userReq.setPassword(MD5Util.MD5(password));
+        List<TUser> tUsers = tUserMapper.select(userReq);
+        if(!tUsers.isEmpty()&&tUsers.size()>0){
+            LoginResp loginResp = new LoginResp();
+            //TODO 生成token令牌
+            BeanUtils.copyProperties(tUsers.get(0),loginResp);
+            respModel.setRespData(loginResp);
+            String loginIp = RequestUtil.getReqIp(request);
+            String loginAddr = AddressUtils.getAddrByIp(loginIp);
+            String platForm = RequestUtil.getSysInfo(request);
+            loginSuccess(tUsers.get(0).getUserId(),platForm,loginIp,loginAddr);
+        }else{
+            //TODO 登录失败处理
         }
         return respModel;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
-    public void loginSuccess(String userName)throws StatusException{
-        UserReq userReq = new UserReq();
-        userReq.setUserName(userName);
-        List<TUser> tUser = tUserMapper.select(userReq);
+    /**
+     * 登录成功后执行
+     * @param userId
+     * @param platForm
+     * @param loginIp
+     * @param loginAddr
+     * @throws StatusException
+     */
+    public void loginSuccess(String userId,String platForm,String loginIp,String loginAddr)throws StatusException{
+        //插入登录成功日志
+        TUserLoginLog tUserLoginLog = new TUserLoginLog();
+        tUserLoginLog.setUserId(userId);
+        tUserLoginLog.setLoginTime(new Date());
+        tUserLoginLog.setLoginPlatform(platForm);
+        tUserLoginLog.setLoginIp(loginIp);
+        tUserLoginLog.setLoginAddr(loginAddr);
+        tUserLoginLogMapper.insert(tUserLoginLog);
+        //修改用户最后登录时间和登录地点
+        TUser user = new TUser();
+        user.setLastLoginIp(loginIp);
+        user.setLastLoginTime(new Date());
+        user.setUserId(userId);
+        tUserMapper.updateByIdSelective(user);
+
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

@@ -6,6 +6,7 @@ import com.im.status.base.model.RespCode;
 import com.im.status.base.model.RespModel;
 import com.im.status.base.util.ParamUtil;
 import com.im.status.model.request.RegisterParam;
+import com.im.status.model.response.LoginResp;
 import com.im.status.model.user.TUser;
 import com.im.status.service.UserService;
 import net.sf.json.JSONObject;
@@ -92,10 +93,10 @@ public class UserController extends BaseController{
     public void login(HttpServletRequest request,HttpServletResponse response,
                          @Param("username")String username,@Param("password")String password){
         logger.info("登录,入参："+ JSONObject.fromObject(request.getParameterMap()));
-        RespModel<TUser> respModel = new RespModel<TUser>();
+        RespModel<LoginResp> respModel = new RespModel<LoginResp>();
         try {
             if(checkLoginParam(username,password)){
-                respModel = userService.login(username,password);
+                respModel = userService.login(username,password,request);
                 logger.info("登录成功,userName:"+username);
                 this.success(respModel);
             }else{
