@@ -2,6 +2,8 @@ package com.im.status.base.util;
 
 import com.im.status.base.encryption.MD5Util;
 
+import java.util.UUID;
+
 /**
  * Created by zhizhuang.yang on 2017/9/27.
  */
@@ -13,7 +15,7 @@ public class TokenUtil {
      * @return
      */
     public static String getToken(String userId){
-        return MD5Util.MD5(userId).toUpperCase();
+        return MD5Util.getMD5StringWithSalt(userId, UUID.randomUUID().toString()).toUpperCase();
     }
 
 }
