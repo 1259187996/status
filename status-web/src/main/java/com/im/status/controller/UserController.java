@@ -7,7 +7,6 @@ import com.im.status.base.model.RespModel;
 import com.im.status.base.util.ParamUtil;
 import com.im.status.model.request.RegisterParam;
 import com.im.status.model.response.LoginResp;
-import com.im.status.model.user.TUser;
 import com.im.status.service.UserService;
 import net.sf.json.JSONObject;
 import org.apache.ibatis.annotations.Param;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -149,6 +149,36 @@ public class UserController extends BaseController{
         }finally{
             writeResponse(response,respModel);
             logger.info("发送验证码结束");
+        }
+    }
+
+    /**
+     * 注销,安全退出
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value="/logout")
+    @ResponseBody
+    public void logout(HttpServletRequest request,HttpServletResponse response,
+                        @RequestParam("token")String token){
+        RespModel respModel = new RespModel();
+        try {
+            if(token!=null){
+                userService.logout(token);
+                this.success(respModel);
+            }else{
+                logger.error("注销失败,token为空");
+                throw new StatusException(respModel,RespCode.USER_LOGOUT_ERROR);
+            }
+        } catch (StatusException e){
+            failed(respModel,e.getRespCode());
+            logger.error(e);
+        }catch (Exception e) {
+            logger.error(e);
+            failed(respModel,e.getMessage());
+        }finally{
+            writeResponse(response,respModel);
+            logger.info("注销,安全退出结束");
         }
     }
 

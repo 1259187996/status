@@ -99,7 +99,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from t_user_info
-		where t_user_info_id = #{0}
+		where user_id = #{0}
 	</select>
 	
 	<!-- 根据ID删除 -->

@@ -10,6 +10,7 @@
 	    <result column="login_ip" property="loginIp"  />
 	    <result column="login_time" property="loginTime"  />
 	    <result column="login_addr" property="loginAddr"  />
+		<result column="user_token" property="userToken"  />
 	    <result column="login_platform" property="loginPlatform"  />
 	    <result column="logout_time" property="logoutTime"  />
 
@@ -21,6 +22,7 @@
     		login_ip as loginIp,
     		login_time as loginTime,
     		login_addr as loginAddr,
+    		user_token as userToken,
     		login_platform as loginPlatform,
     		logout_time as logoutTime
 	</sql>
@@ -33,6 +35,7 @@
 	    		<if test="loginIp != null and loginIp !='' "> and login_ip = #{loginIp}</if>
 	    		<if test="loginTime != null and loginTime !='' "> and login_time = #{loginTime}</if>
 	    		<if test="loginAddr != null and loginAddr !='' "> and login_addr = #{loginAddr}</if>
+				<if test="userToken != null and userToken !='' "> and user_token = #{userToken}</if>
 	    		<if test="loginPlatform != null and loginPlatform !='' "> and login_platform = #{loginPlatform}</if>
 	    		<if test="logoutTime != null and logoutTime !='' "> and logout_time = #{logoutTime}</if>
 		</trim>
@@ -49,6 +52,7 @@
 	    		<if test="loginIp != null and loginIp !='' "> and login_ip = #{loginIp}</if>
 	    		<if test="loginTime != null and loginTime !='' "> and login_time = #{loginTime}</if>
 	    		<if test="loginAddr != null and loginAddr !='' "> and login_addr = #{loginAddr}</if>
+				<if test="userToken != null and userToken !='' "> and user_token = #{userToken}</if>
 	    		<if test="loginPlatform != null and loginPlatform !='' "> and login_platform = #{loginPlatform}</if>
 	    		<if test="logoutTime != null and logoutTime !='' "> and logout_time = #{logoutTime}</if>
 		</trim>
@@ -97,6 +101,7 @@
     		login_ip,
     		login_time,
     		login_addr,
+    		user_token,
     		login_platform,
     		logout_time
 		)
@@ -106,6 +111,7 @@
     		#{loginIp},
     		#{loginTime},
     		#{loginAddr},
+    		#{userToken},
     		#{loginPlatform},
     		#{logoutTime}
 		)
@@ -124,7 +130,7 @@
 	    	<if test="loginPlatform != null"> , login_platform = #{loginPlatform}</if>
 	    	<if test="logoutTime != null"> , logout_time = #{logoutTime}</if>
 		</trim>
-		where id = #{id}
+		where user_token = #{userToken}
 	</update>
 	
 	<update id="updateById" parameterType="com.im.status.model.user.TUserLoginLog">

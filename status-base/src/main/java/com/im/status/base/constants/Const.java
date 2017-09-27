@@ -18,6 +18,7 @@ public class Const {
     public static final String MESSAGE_TYPE_FORGET = "forget";									//忘记密码时发送验证码
     public static final int MESSAGE_OUT_TIME = 1800;											//验证码过期时间
     public static final String MD5_DEFAULT_SALT = "status";                                     //MD5加密默认盐值
+    public static final int USER_LOGIN_OUT_TIME = 21600;                                        //登录用户过期时间
 
 
 }

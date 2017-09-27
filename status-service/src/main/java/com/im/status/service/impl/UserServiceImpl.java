@@ -9,9 +9,7 @@ import com.im.status.base.exception.StatusException;
 import com.im.status.base.logger.StatusLogger;
 import com.im.status.base.model.RespCode;
 import com.im.status.base.model.RespModel;
-import com.im.status.base.util.AddressUtils;
-import com.im.status.base.util.RequestUtil;
-import com.im.status.base.util.Util;
+import com.im.status.base.util.*;
 import com.im.status.mapper.TSmsLogMapper;
 import com.im.status.mapper.TUserInfoMapper;
 import com.im.status.mapper.TUserLoginLogMapper;
@@ -104,12 +102,20 @@ public class UserServiceImpl implements UserService {
         if(!tUsers.isEmpty()&&tUsers.size()>0){
             LoginResp loginResp = new LoginResp();
             //TODO 生成token令牌
+            String token = TokenUtil.getToken(tUsers.get(0).getUserId());
+            loginResp.setToken(token);
+            //将用户信息存放到redis
+            TUserInfo tUserInfo = tUserInfoMapper.selectById(tUsers.get(0).getUserId());
             BeanUtils.copyProperties(tUsers.get(0),loginResp);
+            BeanUtils.copyProperties(tUserInfo,loginResp);
+            redisCache.set(token.getBytes(), SerializeUtil.serialize(loginResp),Const.USER_LOGIN_OUT_TIME);
+            //登录返回
             respModel.setRespData(loginResp);
             String loginIp = RequestUtil.getReqIp(request);
             String loginAddr = AddressUtils.getAddrByIp(loginIp);
             String platForm = RequestUtil.getSysInfo(request);
-            loginSuccess(tUsers.get(0).getUserId(),platForm,loginIp,loginAddr);
+            //执行登录成功
+            loginSuccess(tUsers.get(0).getUserId(),platForm,loginIp,loginAddr,token);
         }else{
             //TODO 登录失败处理
         }
@@ -124,7 +130,7 @@ public class UserServiceImpl implements UserService {
      * @param loginAddr
      * @throws StatusException
      */
-    public void loginSuccess(String userId,String platForm,String loginIp,String loginAddr)throws StatusException{
+    public void loginSuccess(String userId,String platForm,String loginIp,String loginAddr,String token)throws StatusException{
         //插入登录成功日志
         TUserLoginLog tUserLoginLog = new TUserLoginLog();
         tUserLoginLog.setUserId(userId);
@@ -132,6 +138,7 @@ public class UserServiceImpl implements UserService {
         tUserLoginLog.setLoginPlatform(platForm);
         tUserLoginLog.setLoginIp(loginIp);
         tUserLoginLog.setLoginAddr(loginAddr);
+        tUserLoginLog.setUserToken(token);
         tUserLoginLogMapper.insert(tUserLoginLog);
         //修改用户最后登录时间和登录地点
         TUser user = new TUser();
@@ -139,7 +146,6 @@ public class UserServiceImpl implements UserService {
         user.setLastLoginTime(new Date());
         user.setUserId(userId);
         tUserMapper.updateByIdSelective(user);
-
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -207,5 +213,16 @@ public class UserServiceImpl implements UserService {
         smsLog.setSmsContent(code);
         tSmsLogMapper.insert(smsLog);
         return flag;
+    }
+
+    @Transactional
+    public void logout(String token) throws StatusException {
+        //将redis中的用户信息移除
+        redisCache.del(token.getBytes());
+        //更改登录日志中的注销时间
+        TUserLoginLog tUserLoginLog = new TUserLoginLog();
+        tUserLoginLog.setUserToken(token);
+        tUserLoginLog.setLogoutTime(new Date());
+        tUserLoginLogMapper.updateByIdSelective(tUserLoginLog);
     }
 }

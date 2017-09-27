@@ -18,4 +18,6 @@ public interface UserService {
     public RespModel<String> sendCode(String userName,String type)throws StatusException;
 
     public RespModel<LoginResp> login(String username, String password, HttpServletRequest request)throws StatusException;
+
+    public void logout(String token)throws StatusException;
 }

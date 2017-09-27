@@ -18,6 +18,7 @@ public class TUserLoginLog  implements Serializable{
 	private String loginIp;//用户登录IP
 	private Date loginTime;//用户登录时间
 	private String loginAddr;//用户登录地点
+	private String userToken;//用户token令牌
 	private String loginPlatform;//用户登录平台
 	private Date logoutTime;//用户退出时间
 
@@ -68,27 +69,37 @@ public class TUserLoginLog  implements Serializable{
 		this.logoutTime = logoutTime;
 	}
 
+	public String getUserToken() {
+		return userToken;
+	}
+
+	public void setUserToken(String userToken) {
+		this.userToken = userToken;
+	}
+
+	public TUserLoginLog(Integer id, String userId, String loginIp, Date loginTime, String loginAddr, String userToken, String loginPlatform, Date logoutTime) {
+		this.id = id;
+		this.userId = userId;
+		this.loginIp = loginIp;
+		this.loginTime = loginTime;
+		this.loginAddr = loginAddr;
+		this.userToken = userToken;
+		this.loginPlatform = loginPlatform;
+		this.logoutTime = logoutTime;
+	}
+
 	@Override
 	public String toString() {
 		return "TUserLoginLog{" +
 				"id=" + id +
 				", userId='" + userId + '\'' +
 				", loginIp='" + loginIp + '\'' +
-				", loginTime='" + loginTime + '\'' +
+				", loginTime=" + loginTime +
 				", loginAddr='" + loginAddr + '\'' +
+				", userToken='" + userToken + '\'' +
 				", loginPlatform='" + loginPlatform + '\'' +
-				", logoutTime='" + logoutTime + '\'' +
+				", logoutTime=" + logoutTime +
 				'}';
-	}
-
-	public TUserLoginLog(Integer id, String userId, String loginIp, Date loginTime, String loginAddr, String loginPlatform, Date logoutTime) {
-		this.id = id;
-		this.userId = userId;
-		this.loginIp = loginIp;
-		this.loginTime = loginTime;
-		this.loginAddr = loginAddr;
-		this.loginPlatform = loginPlatform;
-		this.logoutTime = logoutTime;
 	}
 
 	public TUserLoginLog() {

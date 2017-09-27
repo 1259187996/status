@@ -39,7 +39,9 @@ public enum RespCode {
 
     MESSAGE_SEND_FAIL("512", "短信发送失败"),
 
-    USER_UN_LOGIN("514", "用户尚未登录");
+    USER_UN_LOGIN("514", "用户尚未登录"),
+
+    USER_LOGOUT_ERROR("515","用户注销失败");
 
     /**
      * @param returnCode

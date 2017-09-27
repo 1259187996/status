@@ -44,9 +44,9 @@ public class AddressUtils {
         String returnStr = getResult(urlStr, content, encodingString);
         if (returnStr != null) {
             // 处理返回的省市区信息
-            System.out.println("(1) unicode转换成中文前的returnStr : " + returnStr);
+//            System.out.println("(1) unicode转换成中文前的returnStr : " + returnStr);
             returnStr = decodeUnicode(returnStr);
-            System.out.println("(2) unicode转换成中文后的returnStr : " + returnStr);
+//            System.out.println("(2) unicode转换成中文后的returnStr : " + returnStr);
             String[] temp = returnStr.split(",");
             if(temp.length<3){
                 return "0";//无效IP，局域网测试
@@ -189,7 +189,7 @@ public class AddressUtils {
     public static String getAddrByIp(String ip){
         logger.info("IP地址："+ip);
         if(ip==null||ip.equals("127.0.0.1")){
-            return "localhost";
+            return "本地";
         }
         AddressUtils addressUtils = new AddressUtils();
         String json_result = "";

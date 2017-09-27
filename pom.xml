@@ -257,7 +257,7 @@
             <properties>
                 <!--Mysql settings-->
                 <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
-                <jdbc.url>jdbc:mysql://114.67.139.80:3306/im_status</jdbc.url>
+                <jdbc.url>jdbc:mysql://114.67.139.80:3306/im_status?characterEncoding=UTF-8</jdbc.url>
                 <jdbc.username>root</jdbc.username>
                 <jdbc.password>mysql_root</jdbc.password>
                 <!--# Redis settings-->
